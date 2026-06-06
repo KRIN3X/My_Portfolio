@@ -1,6 +1,6 @@
 # Christian Van Natali — Portfolio
 
-A lightweight, mobile-first single-page portfolio. **Vite + JavaScript**, no
+A lightweight, single-page portfolio. **Vite + JavaScript**, no
 framework runtime. See [`project_overview.md`](./project_overview.md) for the
 full plan, file map, and design tokens.
 
