@@ -547,6 +547,28 @@ p { margin: 0; }
   position: relative;
   padding-left: 18px;
 }
+.project__stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 12px clamp(14px, 3vw, 24px) 14px;
+  border-bottom: 1px solid var(--ide-border-2);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.25;
+  padding: 5px 10px;
+  border: 1px solid var(--ide-border-strong);
+  border-radius: 3px;
+  background: var(--ide-elev);
+  color: var(--ide-fg);
+}
+
 .project__prose li::before {
   content: "›";
   position: absolute;
@@ -818,6 +840,165 @@ p { margin: 0; }
   transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
 }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* =========================================================================
+   Animations
+   ========================================================================= */
+
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes tab-flash {
+  0% { box-shadow: inset 0 2px 0 0 var(--ide-accent); }
+  100% { box-shadow: none; }
+}
+
+@keyframes chip-pulse {
+  0% {
+    border-color: var(--ide-accent);
+    color: var(--ide-accent);
+    background: color-mix(in oklab, var(--ide-accent) 22%, transparent);
+    transform: scale(1.04);
+  }
+  40% {
+    border-color: var(--ide-accent);
+    color: var(--ide-accent);
+    background: color-mix(in oklab, var(--ide-accent) 22%, transparent);
+    transform: scale(1.04);
+  }
+  100% {
+    border-color: var(--ide-border-strong);
+    color: var(--ide-fg);
+    background: var(--ide-elev);
+    transform: scale(1);
+  }
+}
+
+@keyframes line-fade-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+.cursor-blink--inline {
+  display: inline;
+  font-weight: 400;
+  color: var(--ide-accent);
+}
+
+/* Hero: staggered line reveal on load */
+.code--hero:not(.code--hero-ready) .code__line--hero {
+  opacity: 0;
+}
+.code--hero.code--hero-ready .code__line--hero {
+  animation: line-fade-in 0.35s var(--ease) forwards;
+}
+.code--hero.code--hero-ready .code__line--hero:nth-child(1) { animation-delay: 0.05s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(2) { animation-delay: 0.1s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(3) { animation-delay: 0.15s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(4) { animation-delay: 0.2s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(5) { animation-delay: 0.25s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(6) { animation-delay: 0.3s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(7) { animation-delay: 0.35s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(8) { animation-delay: 0.4s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(9) { animation-delay: 0.45s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(10) { animation-delay: 0.5s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(11) { animation-delay: 0.55s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(12) { animation-delay: 0.6s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(13) { animation-delay: 0.65s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(14) { animation-delay: 0.7s; }
+.code--hero.code--hero-ready .code__line--hero:nth-child(15) { animation-delay: 0.75s; }
+
+/* Skills: staggered JSON lines */
+#skills-code:not(.skills--revealed) .code__line--stagger {
+  opacity: 0;
+}
+#skills-code.skills--revealed .code__line--stagger {
+  animation: line-fade-in 0.3s var(--ease) forwards;
+  animation-delay: calc(var(--line-i, 0) * 0.04s);
+}
+
+/* Tab flash when section becomes active */
+.tab--flash {
+  animation: tab-flash 0.55s var(--ease);
+}
+
+/* Explorer folder open state */
+.explorer__folder.folder--open > .folder .folder__chev {
+  color: var(--ide-accent);
+  transform: rotate(0deg);
+}
+.explorer__folder:not(.folder--open) > .folder .folder__chev {
+  transform: rotate(-90deg);
+  transition: transform 0.2s var(--ease), color 0.2s var(--ease);
+}
+.explorer__folder.folder--open .explorer__files--nested {
+  animation: line-fade-in 0.25s var(--ease);
+}
+
+/* Project stack chip pulse */
+.chip--pulse {
+  animation: chip-pulse 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Status bar building indicator */
+.statusbar__item--activity {
+  color: var(--ide-accent);
+  animation: status-pulse 1.2s ease-in-out infinite;
+}
+
+/* Copy toast */
+.ide-toast {
+  position: fixed;
+  bottom: calc(var(--statusbar-h) + 12px);
+  right: 16px;
+  z-index: 100;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 8px 14px;
+  background: var(--ide-panel);
+  border: 1px solid var(--ide-accent);
+  color: var(--ide-accent);
+  border-radius: 4px;
+  animation: toast-in 0.25s var(--ease);
+}
+.ide-toast[hidden] { display: none; }
+
+/* Output log lines appear one by one */
+.bp-line--typing {
+  animation: line-fade-in 0.2s var(--ease);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
+  .cursor-blink { animation: none; opacity: 1; }
+  .code--hero .code__line--hero,
+  #skills-code .code__line--stagger {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+  .tab--flash,
+  .chip--pulse,
+  .statusbar__item--activity,
+  .ide-toast,
+  .bp-line--typing {
+    animation: none;
+    transform: none;
+  }
+  .explorer__folder .folder__chev { transition: none; }
 }

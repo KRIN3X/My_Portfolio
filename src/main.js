@@ -41,12 +41,140 @@ const tk = {
   op:   (s) => `<span class="tk-op">${escapeHTML(s)}</span>`,
 };
 
-function codeLine(html) {
-  return el("p", { class: "code__line", html });
+function codeLine(html, extraClass = "") {
+  const cls = extraClass ? `code__line ${extraClass}` : "code__line";
+  return el("p", { class: cls, html });
 }
 
-function blankLine() {
-  return el("p", { class: "code__line", html: "&nbsp;" });
+function blankLine(extraClass = "") {
+  const cls = extraClass ? `code__line ${extraClass}` : "code__line";
+  return el("p", { class: cls, html: "&nbsp;" });
+}
+
+/* ----------------------------------------------------------------------
+   Animation helpers
+---------------------------------------------------------------------- */
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+let typewriterCancel = null;
+
+function typewriterCharDelay(char, prevChar, index) {
+  if (index === 0) return 320 + Math.random() * 180;
+  if (prevChar === "." || prevChar === "," || prevChar === "—") {
+    return 220 + Math.random() * 280;
+  }
+  if (prevChar === " ") return 55 + Math.random() * 95;
+  if (char === " ") return 40 + Math.random() * 70;
+  if (index > 8 && index % 11 === 0 && Math.random() < 0.4) {
+    return 180 + Math.random() * 320;
+  }
+  return 48 + Math.random() * 82;
+}
+
+function runTypewriter(target, text, onDone) {
+  typewriterCancel?.();
+  if (!target) return;
+
+  if (prefersReducedMotion()) {
+    target.textContent = text;
+    onDone?.();
+    return;
+  }
+
+  target.textContent = "";
+  let cancelled = false;
+  typewriterCancel = () => {
+    cancelled = true;
+  };
+
+  const typeNext = (index) => {
+    if (cancelled) return;
+    if (index >= text.length) {
+      typewriterCancel = null;
+      onDone?.();
+      return;
+    }
+    target.textContent += text[index];
+    const delay = typewriterCharDelay(text[index], text[index - 1], index);
+    setTimeout(() => typeNext(index + 1), delay);
+  };
+
+  typeNext(0);
+}
+
+function flashTab(sectionId) {
+  const tab = document.querySelector(`#${sectionId}-tab`);
+  if (!tab || prefersReducedMotion()) return;
+  tab.classList.remove("tab--flash");
+  void tab.offsetWidth;
+  tab.classList.add("tab--flash");
+  tab.addEventListener("animationend", () => tab.classList.remove("tab--flash"), {
+    once: true,
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById("ide-toast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => {
+    toast.hidden = true;
+  }, 2200);
+}
+
+const OUTPUT_LOG_KEY = "cn.outputPlayed";
+
+function getOutputLogLines() {
+  return [
+    { html: `<span class="tk-cmt">[vite]</span> v5.4.21 building for production...` },
+    { html: `<span class="tk-cmt">[vite]</span> <span class="tk-str">✓</span> 6 modules transformed.` },
+    { html: `<span class="tk-cmt">[vite]</span> dist/index.html <span class="tk-num">12.77 kB</span> · gzip: <span class="tk-num">2.96 kB</span>` },
+    { html: `<span class="tk-cmt">[vite]</span> dist/assets/index-*.css <span class="tk-num">11.69 kB</span> · gzip: <span class="tk-num">3.17 kB</span>` },
+    { html: `<span class="tk-cmt">[vite]</span> dist/assets/index-*.js <span class="tk-num">18.40 kB</span> · gzip: <span class="tk-num">6.40 kB</span>` },
+    { html: `<span class="tk-cmt">[vite]</span> <span class="tk-str">✓</span> built in <span class="tk-num">117ms</span>` },
+    { html: "&nbsp;" },
+    { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-fn">github-pages</span> · workflow triggered on push to <span class="tk-str">main</span>` },
+    { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-str">✓</span> live at <span class="tk-fn">https://krin3x.github.io/My_Portfolio/</span>` },
+  ];
+}
+
+function renderOutputLogInstant(host) {
+  host.replaceChildren(
+    ...getOutputLogLines().map((line) =>
+      el("p", { class: "bp-line", html: line.html }),
+    ),
+  );
+}
+
+function playOutputLog(host) {
+  if (!host) return;
+  const lines = getOutputLogLines();
+
+  if (prefersReducedMotion() || sessionStorage.getItem(OUTPUT_LOG_KEY)) {
+    renderOutputLogInstant(host);
+    return;
+  }
+
+  host.replaceChildren();
+  let i = 0;
+
+  const appendNext = () => {
+    if (i >= lines.length) {
+      sessionStorage.setItem(OUTPUT_LOG_KEY, "1");
+      return;
+    }
+    const line = el("p", { class: "bp-line bp-line--typing", html: lines[i].html });
+    host.append(line);
+    i += 1;
+    setTimeout(appendNext, 180);
+  };
+
+  appendNext();
 }
 
 /* ----------------------------------------------------------------------
@@ -57,9 +185,19 @@ function renderSkills() {
   const host = document.getElementById("skills-code");
   if (!host) return;
 
+  const wasRevealed = host.classList.contains("skills--revealed");
+  let lineIndex = 0;
+
+  const staggerLine = (html) => {
+    const node = codeLine(html, "code__line--stagger");
+    node.style.setProperty("--line-i", String(lineIndex));
+    lineIndex += 1;
+    return node;
+  };
+
   const lines = [
-    codeLine(tk.cmt("// Stack at a glance — keys stable, comment localized")),
-    codeLine(tk.op("{")),
+    staggerLine(tk.cmt("// Stack at a glance — keys stable, comment localized")),
+    staggerLine(tk.op("{")),
   ];
 
   SKILL_GROUPS.forEach((group, gi) => {
@@ -68,19 +206,25 @@ function renderSkills() {
     const items = group.items
       .map((item) => tk.str(`"${item}"`))
       .join(`${tk.op(",")} `);
-    lines.push(codeLine(`  ${tk.cmt(`// ${localized}`)}`));
+    lines.push(staggerLine(`  ${tk.cmt(`// ${localized}`)}`));
     lines.push(
-      codeLine(
+      staggerLine(
         `  ${tk.prop(`"${group.id}"`)}${tk.op(":")} ${tk.op("[")}${items}${tk.op("]")}${
           isLast ? "" : tk.op(",")
         }`,
       ),
     );
-    if (!isLast) lines.push(blankLine());
+    if (!isLast) {
+      const gap = blankLine("code__line--stagger");
+      gap.style.setProperty("--line-i", String(lineIndex));
+      lineIndex += 1;
+      lines.push(gap);
+    }
   });
 
-  lines.push(codeLine(tk.op("}")));
+  lines.push(staggerLine(tk.op("}")));
   host.replaceChildren(...lines);
+  if (wasRevealed) host.classList.add("skills--revealed");
 }
 
 /* ----------------------------------------------------------------------
@@ -164,13 +308,22 @@ function renderProject(p) {
   }
   const prose = el("div", { class: "project__prose" }, proseChildren);
 
+  const stack = el(
+    "div",
+    { class: "project__stack" },
+    p.stack.map((tech, i) =>
+      el("span", { class: "chip", "data-chip-index": String(i) }, [tech]),
+    ),
+  );
+
   const article = el(
     "article",
     {
       class: "project" + (p.featured ? "" : " project--secondary"),
       "aria-labelledby": `project-${p.id}-title`,
+      "data-project-id": p.id,
     },
-    [head, projectCodeBlock(p), prose],
+    [head, projectCodeBlock(p), stack, prose],
   );
 
   const titleEl = head.querySelector(".project__filename");
@@ -245,6 +398,8 @@ const SECTION_TO_FILE = {
   contact: ".env",
 };
 
+let lastActiveSection = null;
+
 function setupActiveSection() {
   const fileLinks = document.querySelectorAll(
     ".explorer .file[data-section]",
@@ -253,13 +408,22 @@ function setupActiveSection() {
     document.querySelectorAll(".pane[id]"),
   );
   const statusEl = document.getElementById("status-section");
+  const projectsFolder = document.querySelector('[data-folder="projects"]');
 
   if (sections.length === 0) return;
 
   const setActive = (id) => {
+    if (lastActiveSection !== null && id !== lastActiveSection) {
+      flashTab(id);
+    }
+    lastActiveSection = id;
+
     fileLinks.forEach((link) => {
       link.classList.toggle("is-active", link.dataset.section === id);
     });
+    if (projectsFolder) {
+      projectsFolder.classList.toggle("folder--open", id === "projects");
+    }
     if (statusEl) statusEl.textContent = SECTION_TO_FILE[id] ?? id;
   };
 
@@ -302,6 +466,9 @@ function setupBottomPanel() {
         if (active) p.removeAttribute("hidden");
         else p.setAttribute("hidden", "");
       });
+      if (target === "output") {
+        playOutputLog(document.getElementById("output-log"));
+      }
     });
   });
 }
@@ -340,6 +507,134 @@ function setYear() {
   if (y) y.textContent = String(new Date().getFullYear());
 }
 
+function setupHeroAnimations() {
+  const heroCode = document.getElementById("hero-code");
+  const pitchEl = document.getElementById("hero-pitch");
+  const cursorEl = document.getElementById("hero-cursor");
+
+  if (heroCode && !prefersReducedMotion()) {
+    requestAnimationFrame(() => heroCode.classList.add("code--hero-ready"));
+  } else if (heroCode) {
+    heroCode.classList.add("code--hero-ready");
+  }
+
+  const startTypewriter = () => {
+    runTypewriter(pitchEl, t("hero.pitch"), () => {
+      if (cursorEl) cursorEl.hidden = true;
+    });
+    if (cursorEl) cursorEl.hidden = false;
+  };
+
+  startTypewriter();
+}
+
+function setupSkillsReveal() {
+  const host = document.getElementById("skills-code");
+  if (!host) return;
+
+  if (prefersReducedMotion()) {
+    host.classList.add("skills--revealed");
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    host.classList.add("skills--revealed");
+    return;
+  }
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("skills--revealed");
+          obs.unobserve(e.target);
+        }
+      }
+    },
+    { rootMargin: "0px 0px -15% 0px", threshold: 0.1 },
+  );
+  obs.observe(host);
+}
+
+function setupStatusBuilding() {
+  const activity = document.getElementById("status-activity");
+  if (!activity) return;
+
+  if (prefersReducedMotion()) {
+    activity.textContent = t("status.ready");
+    activity.hidden = false;
+    return;
+  }
+
+  activity.textContent = t("status.building");
+  activity.hidden = false;
+  setTimeout(() => {
+    activity.textContent = t("status.ready");
+    setTimeout(() => {
+      activity.hidden = true;
+    }, 1800);
+  }, 1400);
+}
+
+function setupCopyToClipboard() {
+  document.querySelectorAll("[data-copy]").forEach((link) => {
+    link.addEventListener("click", async (e) => {
+      const value = link.dataset.copy;
+      if (!value) return;
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(value);
+        const key =
+          value.includes("@") ? "copy.email" : value.includes("+") ? "copy.phone" : "copy.done";
+        showToast(t(key));
+      } catch {
+        showToast(t("copy.done"));
+      }
+    });
+  });
+}
+
+function pulseProjectChips(article) {
+  if (prefersReducedMotion()) return;
+  const chips = article.querySelectorAll(".chip");
+  chips.forEach((chip, i) => {
+    setTimeout(() => {
+      chip.classList.remove("chip--pulse");
+      void chip.offsetWidth;
+      chip.classList.add("chip--pulse");
+      chip.addEventListener(
+        "animationend",
+        () => chip.classList.remove("chip--pulse"),
+        { once: true },
+      );
+    }, i * 240);
+  });
+}
+
+let projectChipObserver = null;
+
+function setupProjectChipPulse() {
+  projectChipObserver?.disconnect();
+  const projects = document.querySelectorAll(".project");
+  if (projects.length === 0) return;
+
+  if (!("IntersectionObserver" in window)) return;
+
+  projectChipObserver = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          pulseProjectChips(e.target);
+          projectChipObserver.unobserve(e.target);
+        }
+      }
+    },
+    { rootMargin: "0px 0px -10% 0px", threshold: 0.2 },
+  );
+
+  projects.forEach((p) => projectChipObserver.observe(p));
+}
+
 /* ----------------------------------------------------------------------
    Boot
 ---------------------------------------------------------------------- */
@@ -358,9 +653,27 @@ function init() {
   setupReveal();
   setupLangToggle();
   setYear();
+  setupHeroAnimations();
+  setupSkillsReveal();
+  setupStatusBuilding();
+  setupCopyToClipboard();
+  setupProjectChipPulse();
 
   document.addEventListener("langchange", () => {
     rerenderDynamic();
+    setupProjectChipPulse();
+    const pitchEl = document.getElementById("hero-pitch");
+    const cursorEl = document.getElementById("hero-cursor");
+    if (pitchEl) {
+      runTypewriter(pitchEl, t("hero.pitch"), () => {
+        if (cursorEl) cursorEl.hidden = true;
+      });
+      if (cursorEl) cursorEl.hidden = false;
+    }
+    const activity = document.getElementById("status-activity");
+    if (activity && !activity.hidden) {
+      activity.textContent = t("status.ready");
+    }
   });
 }
 

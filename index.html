@@ -37,7 +37,7 @@
               <li><a class="file file--ts" href="#hero" data-section="hero"><span class="file__icon" aria-hidden="true">⟨⟩</span>hero.ts</a></li>
               <li><a class="file file--md" href="#about" data-section="about"><span class="file__icon" aria-hidden="true">M</span>about.md</a></li>
               <li><a class="file file--json" href="#skills" data-section="skills"><span class="file__icon file__icon--json" aria-hidden="true"></span>skills.json</a></li>
-              <li>
+              <li class="explorer__folder" data-folder="projects">
                 <p class="folder"><span class="folder__chev" aria-hidden="true">▾</span><span class="folder__name">projects/</span></p>
                 <ul class="explorer__files explorer__files--nested">
                   <li><a class="file file--ts" href="#projects" data-section="projects"><span class="file__icon" aria-hidden="true">⟨⟩</span>presto-it.ts</a></li>
@@ -60,24 +60,24 @@
                 <span class="tab__close" aria-hidden="true">×</span>
               </span>
             </header>
-            <div class="pane__body code">
-              <p class="code__line"><span class="tk-cmt">// <span data-i18n="hero.eyebrow">Full Stack Software Developer · Milan, Italy</span></span></p>
-              <p class="code__line">&nbsp;</p>
-              <p class="code__line"><span class="tk-kw">export const</span> <span class="tk-prop">name</span> <span class="tk-op">=</span> <span class="tk-str">'Christian Van Natali'</span><span class="tk-op">;</span></p>
-              <p class="code__line">&nbsp;</p>
-              <p class="code__line"><span class="tk-kw">function</span> <span class="tk-fn">summary</span><span class="tk-op">()</span> <span class="tk-op">{</span></p>
-              <p class="code__line">&nbsp;&nbsp;<span class="tk-kw">return</span> <span class="tk-str">'<span data-i18n="hero.pitch">Computer Science student with hands-on experience in Python, C#, Unity, and Godot.</span>'</span><span class="tk-op">;</span></p>
-              <p class="code__line"><span class="tk-op">}</span></p>
-              <p class="code__line">&nbsp;</p>
-              <p class="code__line"><span class="tk-cmt">/**</span></p>
-              <p class="code__line"><span class="tk-cmt"> * <span data-i18n="hero.currently.label">@currently</span></span></p>
-              <p class="code__line"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line1">Hackademy+ bootcamp — through June 2026</span></span></p>
-              <p class="code__line"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line2">Pocket Metropolis (Godot mobile sim) — in progress</span></span></p>
-              <p class="code__line"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line3">Risiko WebRTC multiplayer — in progress</span></span></p>
-              <p class="code__line"><span class="tk-cmt"> */</span></p>
-              <p class="code__line">&nbsp;</p>
-              <p class="code__line"><span class="tk-cmt">// Run:</span></p>
-              <p class="code__line code__line--actions">
+            <div class="pane__body code code--hero" id="hero-code">
+              <p class="code__line code__line--hero"><span class="tk-cmt">// <span data-i18n="hero.eyebrow">Full Stack Software Developer · Milan, Italy</span></span></p>
+              <p class="code__line code__line--hero">&nbsp;</p>
+              <p class="code__line code__line--hero"><span class="tk-kw">export const</span> <span class="tk-prop">name</span> <span class="tk-op">=</span> <span class="tk-str">'Christian Van Natali'</span><span class="tk-op">;</span></p>
+              <p class="code__line code__line--hero">&nbsp;</p>
+              <p class="code__line code__line--hero"><span class="tk-kw">function</span> <span class="tk-fn">summary</span><span class="tk-op">()</span> <span class="tk-op">{</span></p>
+              <p class="code__line code__line--hero" id="hero-pitch-line">&nbsp;&nbsp;<span class="tk-kw">return</span> <span class="tk-str">'<span id="hero-pitch"></span><span class="cursor-blink cursor-blink--inline" id="hero-cursor" aria-hidden="true">|</span>'</span><span class="tk-op">;</span></p>
+              <p class="code__line code__line--hero"><span class="tk-op">}</span></p>
+              <p class="code__line code__line--hero">&nbsp;</p>
+              <p class="code__line code__line--hero"><span class="tk-cmt">/**</span></p>
+              <p class="code__line code__line--hero"><span class="tk-cmt"> * <span data-i18n="hero.currently.label">@currently</span></span></p>
+              <p class="code__line code__line--hero"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line1">Hackademy+ bootcamp — through June 2026</span></span></p>
+              <p class="code__line code__line--hero"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line2">Pocket Metropolis (Godot mobile sim) — in progress</span></span></p>
+              <p class="code__line code__line--hero"><span class="tk-cmt"> *   · <span data-i18n="hero.currently.line3">Risiko WebRTC multiplayer — in progress</span></span></p>
+              <p class="code__line code__line--hero"><span class="tk-cmt"> */</span></p>
+              <p class="code__line code__line--hero">&nbsp;</p>
+              <p class="code__line code__line--hero"><span class="tk-cmt">// Run:</span></p>
+              <p class="code__line code__line--hero code__line--actions">
                 <a class="btn btn--primary" href="#projects">
                   <span class="btn__prompt" aria-hidden="true">›</span>
                   <span data-i18n="hero.cta.projects">View projects</span>
@@ -171,8 +171,8 @@
             <div class="pane__body code">
               <p class="code__line"><span class="tk-cmt"># <span data-i18n="contact.title">Contact</span> — <span data-i18n="contact.lede">The fastest way to reach me is email or LinkedIn.</span></span></p>
               <p class="code__line">&nbsp;</p>
-              <p class="code__line"><span class="tk-prop">EMAIL</span><span class="tk-op">=</span><span class="tk-str">"<a href="mailto:chrinat.102@gmail.com">chrinat.102@gmail.com</a>"</span></p>
-              <p class="code__line"><span class="tk-prop">PHONE</span><span class="tk-op">=</span><span class="tk-str">"<a href="tel:+393713452118">+39 371 345 2118</a>"</span></p>
+              <p class="code__line"><span class="tk-prop">EMAIL</span><span class="tk-op">=</span><span class="tk-str">"<a href="mailto:chrinat.102@gmail.com" data-copy="chrinat.102@gmail.com">chrinat.102@gmail.com</a>"</span></p>
+              <p class="code__line"><span class="tk-prop">PHONE</span><span class="tk-op">=</span><span class="tk-str">"<a href="tel:+393713452118" data-copy="+39 371 345 2118">+39 371 345 2118</a>"</span></p>
               <p class="code__line"><span class="tk-prop">LINKEDIN</span><span class="tk-op">=</span><span class="tk-str">"<a href="https://www.linkedin.com/in/christian-natali-07ba33174/" target="_blank" rel="noopener">linkedin.com/in/christian-natali-07ba33174</a>"</span></p>
               <p class="code__line"><span class="tk-prop">LOCATION</span><span class="tk-op">=</span><span class="tk-str">"Milan, Italy"</span></p>
             </div>
@@ -210,15 +210,7 @@
 
               <!-- Output pane -->
               <div class="bp-pane" role="tabpanel" data-bp-pane="output" hidden>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> v5.4.21 building for production...</p>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> <span class="tk-str">✓</span> 6 modules transformed.</p>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> dist/index.html             <span class="tk-num">12.77 kB</span> · gzip: <span class="tk-num">2.96 kB</span></p>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> dist/assets/index-*.css     <span class="tk-num">11.69 kB</span> · gzip: <span class="tk-num">3.17 kB</span></p>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> dist/assets/index-*.js      <span class="tk-num">18.40 kB</span> · gzip: <span class="tk-num">6.40 kB</span></p>
-                <p class="bp-line"><span class="tk-cmt">[vite]</span> <span class="tk-str">✓</span> built in <span class="tk-num">117ms</span></p>
-                <p class="bp-line">&nbsp;</p>
-                <p class="bp-line"><span class="tk-cmt">[deploy]</span> <span class="tk-fn">github-pages</span> · workflow triggered on push to <span class="tk-str">main</span></p>
-                <p class="bp-line"><span class="tk-cmt">[deploy]</span> <span class="tk-str">✓</span> live at <span class="tk-fn">https://&lt;user&gt;.github.io/&lt;repo&gt;/</span></p>
+                <div id="output-log"></div>
               </div>
 
               <!-- Terminal pane -->
@@ -237,7 +229,7 @@
                 <p class="bp-line"><span class="tk-num">7af3e5b</span> feat(deploy): GitHub Pages workflow with BASE_PATH injection</p>
                 <p class="bp-line"><span class="tk-num">12ab90c</span> chore: init Vite + JavaScript scaffold</p>
                 <p class="bp-line">&nbsp;</p>
-                <p class="bp-line"><span class="tk-prop">$</span> <span class="tk-cmt">_</span></p>
+                <p class="bp-line"><span class="tk-prop">$</span> <span class="cursor-blink tk-cmt">_</span></p>
               </div>
             </div>
           </section>
@@ -253,11 +245,14 @@
           <span class="statusbar__item">UTF-8</span>
         </div>
         <div class="statusbar__group statusbar__group--right">
+          <span class="statusbar__item statusbar__item--activity" id="status-activity" hidden></span>
           <span class="statusbar__item" id="status-section">hero.ts</span>
           <span class="statusbar__item">© <span id="year"></span> Christian Van Natali</span>
         </div>
       </footer>
     </div>
+
+    <div id="ide-toast" class="ide-toast" role="status" aria-live="polite" hidden></div>
 
     <script type="module" src="/src/main.js"></script>
   </body>

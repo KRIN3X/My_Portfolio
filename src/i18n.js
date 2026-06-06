@@ -128,6 +128,12 @@ const EN = {
   "bp.output": "Output",
   "bp.terminal": "Terminal",
   "bp.noProblems": "No problems have been detected in the workspace.",
+
+  "status.building": "Building…",
+  "status.ready": "Ready",
+  "copy.done": "Copied to clipboard",
+  "copy.email": "Email copied",
+  "copy.phone": "Phone copied",
 };
 
 const IT = {
@@ -254,6 +260,12 @@ const IT = {
   "bp.output": "Output",
   "bp.terminal": "Terminale",
   "bp.noProblems": "Nessun problema rilevato nel workspace.",
+
+  "status.building": "Compilazione…",
+  "status.ready": "Pronto",
+  "copy.done": "Copiato negli appunti",
+  "copy.email": "Email copiata",
+  "copy.phone": "Telefono copiato",
 };
 
 const DICTS = { en: EN, it: IT };
