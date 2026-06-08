@@ -228,7 +228,7 @@ function renderSkills() {
 }
 
 /* ----------------------------------------------------------------------
-   projects/<file>.ts
+   projects/<file>.js
 ---------------------------------------------------------------------- */
 
 function projectCodeBlock(p) {
@@ -278,7 +278,7 @@ function renderProject(p) {
   }
 
   const head = el("header", { class: "project__head" }, [
-    el("span", { class: "project__filename" }, [`${p.id}.ts`]),
+    el("span", { class: "project__filename" }, [`${p.id}.js`]),
     el(
       "span",
       {
@@ -390,7 +390,7 @@ function renderTimeline() {
 ---------------------------------------------------------------------- */
 
 const SECTION_TO_FILE = {
-  hero: "hero.ts",
+  hero: "hero.js",
   about: "about.md",
   skills: "skills.json",
   projects: "projects/",
