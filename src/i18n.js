@@ -44,6 +44,12 @@ const EN = {
   "about.facts.languages": "Languages",
   "about.facts.availability": "Status",
   "about.facts.openToWork": "Open to opportunities",
+  "about.certificate.title": "Certificate",
+  "about.certificate.caption": "Aulab Hackademy+ — Full-Stack Web Developer",
+  "about.certificate.imageAlt":
+    "Aulab Hackademy+ Full-Stack Web Developer certificate awarded to Christian Van Natali",
+  "about.certificate.linkTitle": "Open verified Aulab certificate (new tab)",
+  "about.certificate.view": "View verified credential",
 
   "skills.title": "Skills",
   "skills.group.languages": "Languages",
@@ -175,6 +181,12 @@ const IT = {
   "about.facts.languages": "Lingue",
   "about.facts.availability": "Stato",
   "about.facts.openToWork": "Aperto a nuove opportunità",
+  "about.certificate.title": "Certificato",
+  "about.certificate.caption": "Aulab Hackademy+ — Full-Stack Web Developer",
+  "about.certificate.imageAlt":
+    "Certificato Aulab Hackademy+ Full-Stack Web Developer rilasciato a Christian Van Natali",
+  "about.certificate.linkTitle": "Apri certificato Aulab verificato (nuova scheda)",
+  "about.certificate.view": "Vedi credenziale verificata",
 
   "skills.title": "Competenze",
   "skills.group.languages": "Linguaggi",
@@ -306,6 +318,16 @@ export function applyTranslations() {
     } else {
       el.textContent = value;
     }
+  });
+
+  document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    const key = el.dataset.i18nTitle;
+    if (key) el.setAttribute("title", t(key));
+  });
+
+  document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+    const key = el.dataset.i18nAlt;
+    if (key) el.setAttribute("alt", t(key));
   });
 
   document
