@@ -36,19 +36,27 @@ export const PROJECTS = [
 export const SKILL_GROUPS = [
   {
     id: "languages",
-    items: ["C#", "HTML/CSS", "Java", "JavaScript", "Lua", "PHP", "Python"],
+    items: ["Java", "JavaScript", "PHP", "Python", "C#", "Lua", "HTML/CSS"],
   },
   {
-    id: "engines",
+    id: "backend",
+    items: ["Laravel", "MySQL", "REST APIs", "Authentication"],
+  },
+  {
+    id: "frontend",
+    items: ["HTML5", "CSS", "JavaScript", "jQuery", "Bootstrap"],
+  },
+  {
+    id: "gamedev",
     items: ["Godot", "Unity"],
   },
   {
-    id: "web",
-    items: ["HTML5", "jQuery", "Laravel", "Bootstrap", "MySQL"],
+    id: "methodologies",
+    items: ["Agile", "Scrum", "OOP", "MVC", "Responsive Design"],
   },
   {
     id: "tools",
-    items: ["Cursor", "Eclipse", "Miro", "Visual Studio Code"],
+    items: ["Git", "Cursor", "Visual Studio Code", "Eclipse", "Miro"],
   },
 ];
 
@@ -73,20 +81,8 @@ export const TIMELINE = [
   },
   {
     id: "freud",
-    start: "2019",
+    start: "2016",
     end: "2020",
     url: "https://www.istitutofreud.it/",
-  },
-  {
-    id: "feltrinelli",
-    start: "2017",
-    end: "2019",
-    url: "https://www.itisfeltrinelli.edu.it/",
-  },
-  {
-    id: "montani",
-    start: "2016",
-    end: "2017",
-    url: "https://www.istitutomontani.edu.it/",
   },
 ];

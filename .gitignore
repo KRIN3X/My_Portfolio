@@ -4,3 +4,6 @@ dist
 *.log
 .vscode
 .idea
+
+# Self-hosted visit-log backend (deployed to home server, not to GH Pages)
+landing_page_listener/

@@ -646,6 +646,46 @@ p { margin: 0; }
   font-family: var(--font-mono);
 }
 
+/* Engineering context block — labelled Problem / Role / Architecture / Challenges / Practices */
+.project__meta {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--ide-border-2);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.project__meta-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+.project__meta-label {
+  color: var(--tk-prop);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.project__meta-label::before {
+  content: "@";
+  color: var(--tk-cmt);
+  margin-right: 2px;
+}
+.project__meta-value {
+  color: var(--ide-fg-2);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+}
+@media (min-width: 640px) {
+  .project__meta-row {
+    grid-template-columns: 140px 1fr;
+    column-gap: 14px;
+    align-items: baseline;
+  }
+}
+
 /* ---------- Timeline (experience.log) ---------- */
 .timeline {
   font-family: var(--font-mono);

@@ -20,20 +20,20 @@ const EN = {
 
   "hero.eyebrow": "Full Stack Software Developer · Milan, Italy",
   "hero.pitch":
-    "Computer Science student with hands-on experience in Python, C#, Unity, and Godot, focused on building scalable systems and interactive applications — from full-stack web apps to game systems.",
+    "Building web applications and software systems with Laravel, Java, JavaScript, and modern development tools — focused on backend architecture, database design, and scalable application development.",
   "hero.cta.projects": "View projects",
   "hero.cta.contact": "Get in touch",
 
   "hero.currently.label": "@currently",
-  "hero.currently.line1": "Hackademy+ bootcamp — through June 2026",
-  "hero.currently.line2": "Pocket Metropolis (Godot mobile sim) — in progress",
-  "hero.currently.line3": "Risiko WebRTC multiplayer — in progress",
+  "hero.currently.line1": "Pocket Metropolis (Godot mobile sim) — in progress",
 
   "about.title": "About",
   "about.body1":
-    "I've built data-processing tools and game systems applying object-oriented design and performance optimization. My recent work includes a team-built Laravel e-commerce app (Presto.it) and ongoing Godot projects spanning mobile simulation and web multiplayer.",
+    "Full Stack Software Developer with a foundation in object-oriented programming, MVC architecture, and relational databases. I design and build web applications end-to-end — from database schema and backend logic to responsive interfaces — using Laravel, Java, JavaScript, and MySQL.",
   "about.body2":
-    "I'm exploring AI-assisted software development through structured, secure, and reliability-focused workflows — using AI as a technical tool for learning, planning, debugging, and prototyping, not as a replacement for engineering judgment.",
+    "Recent work includes a team-built Laravel e-commerce app (Presto.it) applying MVC and role-based access, alongside Godot projects exploring modular systems, probability-driven mechanics, and peer-to-peer multiplayer over WebRTC. I care about clear architecture, maintainable code, and shipping features that behave predictably under real conditions.",
+  "about.body3":
+    "I'm exploring AI-assisted development through structured, secure, and reliability-focused workflows — using AI for planning, debugging, and prototyping while keeping engineering decisions my own.",
   "about.facts.based": "Based in",
   "about.facts.training": "Training",
   "about.facts.hackademy": "Hackademy+ · Aulab",
@@ -53,44 +53,66 @@ const EN = {
 
   "skills.title": "Skills",
   "skills.group.languages": "Languages",
-  "skills.group.engines": "Game engines",
-  "skills.group.web": "Web",
-  "skills.group.tools": "Tools",
+  "skills.group.backend": "Backend",
+  "skills.group.frontend": "Frontend",
+  "skills.group.gamedev": "Game development",
+  "skills.group.methodologies": "Methodologies",
+  "skills.group.tools": "Tools & workflow",
 
   "projects.title": "Projects",
   "projects.lede":
     "Full-stack web delivery alongside ongoing game development projects.",
 
+  "project.meta.problem": "Problem",
+  "project.meta.role": "Role",
+  "project.meta.architecture": "Architecture",
+  "project.meta.challenges": "Challenges",
+  "project.meta.practices": "Practices",
+
   "project.presto-it.title": "Presto.it",
   "project.presto-it.tagline": "E-commerce web application · Team of 4 · 2026",
   "project.presto-it.body":
-    "Developed a full-stack e-commerce website as part of a four-person team during the Hackademy+ bootcamp. Applied MVC architecture to separate models, views, and controllers across backend and frontend.",
-  "project.presto-it.point1":
-    "PHP, Laravel, MySQL, HTML, CSS, JavaScript, and Bootstrap",
-  "project.presto-it.point2":
-    "Backend, frontend, database integration, and responsive UI",
-  "project.presto-it.point3":
-    "Collaborative planning, implementation, testing, and delivery",
+    "Full-stack e-commerce platform built during the Hackademy+ bootcamp. Applied MVC to keep models, views, and controllers cleanly separated across backend and frontend.",
+  "project.presto-it.problem":
+    "Deliver a functional e-commerce site covering user browsing, listings, and role-based moderation within a fixed bootcamp timeline.",
+  "project.presto-it.role":
+    "Backend and frontend contributor in a four-person team. Shared ownership of the MVC layer, relational schema, and delivery workflow.",
+  "project.presto-it.architecture":
+    "Laravel MVC with Eloquent models, controllers, and Blade views. MySQL schema for users, categories, and listings with role-based access for moderator workflows. Responsive UI built on Bootstrap.",
+  "project.presto-it.challenges":
+    "Coordinating a shared Git workflow across four contributors, aligning data models between features, and keeping the UI consistent while the schema evolved.",
+  "project.presto-it.practices":
+    "Feature-branch Git workflow, code review, iterative delivery, and manual testing before hand-off.",
 
   "project.pocket-metropolis.title": "Pocket Metropolis",
   "project.pocket-metropolis.tagline": "Mobile city simulator (Godot)",
   "project.pocket-metropolis.body":
-    "Designing a minimalistic city simulation for mobile devices with population growth, housing demand, land value, and infrastructure logic.",
-  "project.pocket-metropolis.point1":
-    "Modular systems for roads, housing, education, and city services",
-  "project.pocket-metropolis.point2":
-    "Probability-based mechanics for resident influx and development",
-  "project.pocket-metropolis.point3":
-    "Performance, scalability, and future expansion",
+    "Minimalistic city simulation for mobile devices modelling population growth, housing demand, land value, and infrastructure over composable systems.",
+  "project.pocket-metropolis.problem":
+    "Design a lightweight city sim that produces meaningful growth loops on mobile hardware without heavy graphics or content.",
+  "project.pocket-metropolis.role":
+    "Solo developer — system design, mechanics, and Godot implementation.",
+  "project.pocket-metropolis.architecture":
+    "Modular Godot scenes per system (roads, housing, education, services) coordinated by a probability-driven update loop. Data-oriented parameters kept separate from behaviour for fast iteration.",
+  "project.pocket-metropolis.challenges":
+    "Keeping the simulation responsive on mobile while systems remain composable enough for new mechanics to plug in without rewrites.",
+  "project.pocket-metropolis.practices":
+    "Scene-based OOP composition, tight iteration on gameplay parameters, and profiling to catch cost hot spots.",
 
   "project.risiko-web.title": "Risiko",
   "project.risiko-web.tagline": "Web-based multiplayer strategy game (Godot + WebRTC)",
   "project.risiko-web.body":
-    "Porting a classic strategy board game to a web-playable multiplayer version with peer-to-peer communication and synchronized game state.",
-  "project.risiko-web.point1": "Peer-to-peer communication with WebRTC",
-  "project.risiko-web.point2": "Game-state synchronization and turn management",
-  "project.risiko-web.point3":
-    "Reliability, latency reduction, and user experience",
+    "Web port of a classic strategy board game with real-time multiplayer, peer-to-peer networking, and synchronized game state.",
+  "project.risiko-web.problem":
+    "Bring a turn-based strategy game to the browser with real-time multiplayer, without running a dedicated authoritative server.",
+  "project.risiko-web.role":
+    "Solo developer — networking, state model, and game rules.",
+  "project.risiko-web.architecture":
+    "Godot with Web export. WebRTC data channels for lobby, turn signalling, and state sync. Host-authoritative action model with deterministic broadcast so peers reconstruct identical state.",
+  "project.risiko-web.challenges":
+    "Reconciling turn state across peers, handling disconnects and re-joins, and reducing perceived latency on shared actions.",
+  "project.risiko-web.practices":
+    "Small testable modules, explicit action logs, and reproducible state transitions for debugging desync.",
 
   "project.status.in-progress": "In progress",
   "project.status.shipped": "Shipped",
@@ -108,13 +130,8 @@ const EN = {
     "Coursework in Information and Communication Technologies",
   "timeline.freud.role": "Diploma in Informatics",
   "timeline.freud.org": "Scuola Paritaria S. Freud",
-  "timeline.freud.meta": "Technical Industrial Institute · Diploma",
-  "timeline.feltrinelli.role": "Informatics",
-  "timeline.feltrinelli.org": "ITIS Feltrinelli",
-  "timeline.feltrinelli.meta": "Technical Industrial Institute",
-  "timeline.montani.role": "Informatics",
-  "timeline.montani.org": "Technical Institute G. e. M. Montani",
-  "timeline.montani.meta": "Technical Institute of Technology",
+  "timeline.freud.meta":
+    "Technical Industrial Institute · High-school diploma in Informatics",
   "timeline.eximia.role": "Intern — C# / RFID data",
   "timeline.eximia.org": "Eximia",
   "timeline.eximia.meta":
@@ -156,21 +173,21 @@ const IT = {
 
   "hero.eyebrow": "Full Stack Software Developer · Milano, Italia",
   "hero.pitch":
-    "Studente di Informatica con esperienza pratica in Python, C#, Unity e Godot, focalizzato sulla creazione di sistemi scalabili e applicazioni interattive — da app web full-stack a sistemi di gioco.",
+    "Sviluppo applicazioni web e sistemi software con Laravel, Java, JavaScript e strumenti di sviluppo moderni — focalizzato su architettura backend, progettazione di database e sviluppo di applicazioni scalabili.",
   "hero.cta.projects": "Vedi i progetti",
   "hero.cta.contact": "Contattami",
 
   "hero.currently.label": "@currently",
-  "hero.currently.line1": "Bootcamp Hackademy+ — fino a giugno 2026",
-  "hero.currently.line2":
+  "hero.currently.line1":
     "Pocket Metropolis (sim mobile in Godot) — in corso",
-  "hero.currently.line3": "Risiko WebRTC multiplayer — in corso",
 
   "about.title": "Chi sono",
   "about.body1":
-    "Ho sviluppato strumenti di elaborazione dati e sistemi di gioco applicando design orientato agli oggetti e ottimizzazione delle prestazioni. Il mio lavoro recente include un e-commerce Laravel in team (Presto.it) e progetti Godot in corso per simulazione mobile e multiplayer web.",
+    "Full Stack Software Developer con basi in programmazione orientata agli oggetti, architettura MVC e database relazionali. Progetto e realizzo applicazioni web end-to-end — dallo schema del database e logica backend fino alle interfacce responsive — usando Laravel, Java, JavaScript e MySQL.",
   "about.body2":
-    "Sto esplorando lo sviluppo software assistito dall'IA attraverso flussi strutturati, sicuri e orientati all'affidabilità — usando l'IA come strumento tecnico per apprendimento, pianificazione, debugging e prototipazione, non come sostituto del giudizio ingegneristico.",
+    "Tra i lavori recenti un'app Laravel di e-commerce sviluppata in team (Presto.it) con MVC e accessi basati su ruoli, insieme a progetti Godot che esplorano sistemi modulari, meccaniche probabilistiche e multiplayer peer-to-peer via WebRTC. Punto a un'architettura chiara, codice manutenibile e funzionalità che si comportano in modo prevedibile in condizioni reali.",
+  "about.body3":
+    "Sto esplorando lo sviluppo assistito dall'IA con flussi strutturati, sicuri e orientati all'affidabilità — usando l'IA per pianificazione, debugging e prototipazione, mantenendo mie le decisioni ingegneristiche.",
   "about.facts.based": "Sede",
   "about.facts.training": "Formazione",
   "about.facts.hackademy": "Hackademy+ · Aulab",
@@ -190,45 +207,66 @@ const IT = {
 
   "skills.title": "Competenze",
   "skills.group.languages": "Linguaggi",
-  "skills.group.engines": "Game engine",
-  "skills.group.web": "Web",
-  "skills.group.tools": "Strumenti",
+  "skills.group.backend": "Backend",
+  "skills.group.frontend": "Frontend",
+  "skills.group.gamedev": "Sviluppo giochi",
+  "skills.group.methodologies": "Metodologie",
+  "skills.group.tools": "Strumenti & workflow",
 
   "projects.title": "Progetti",
   "projects.lede":
     "Consegna web full-stack affiancata a progetti di sviluppo giochi in corso.",
 
+  "project.meta.problem": "Problema",
+  "project.meta.role": "Ruolo",
+  "project.meta.architecture": "Architettura",
+  "project.meta.challenges": "Sfide",
+  "project.meta.practices": "Pratiche",
+
   "project.presto-it.title": "Presto.it",
   "project.presto-it.tagline": "Applicazione e-commerce · Team di 4 · 2026",
   "project.presto-it.body":
-    "Sviluppato un sito e-commerce full-stack in un team di quattro persone durante il bootcamp Hackademy+. Applicata l'architettura MVC per separare modelli, viste e controller tra backend e frontend.",
-  "project.presto-it.point1":
-    "PHP, Laravel, MySQL, HTML, CSS, JavaScript e Bootstrap",
-  "project.presto-it.point2":
-    "Backend, frontend, integrazione database e UI responsive",
-  "project.presto-it.point3":
-    "Pianificazione, implementazione, testing e consegna in team",
+    "Piattaforma e-commerce full-stack sviluppata durante il bootcamp Hackademy+. Applicata l'architettura MVC per mantenere modelli, viste e controller ben separati tra backend e frontend.",
+  "project.presto-it.problem":
+    "Realizzare un sito e-commerce funzionante — con navigazione utente, annunci e moderazione basata sui ruoli — entro il tempo previsto dal bootcamp.",
+  "project.presto-it.role":
+    "Contributore backend e frontend in un team di quattro persone. Responsabilità condivise sul livello MVC, sullo schema relazionale e sulla consegna.",
+  "project.presto-it.architecture":
+    "Laravel MVC con modelli Eloquent, controller e viste Blade. Schema MySQL per utenti, categorie e annunci con accesso basato sui ruoli per la moderazione. UI responsive con Bootstrap.",
+  "project.presto-it.challenges":
+    "Coordinare un workflow Git condiviso tra quattro contributori, allineare i modelli dati tra funzionalità e mantenere una UI coerente mentre lo schema evolveva.",
+  "project.presto-it.practices":
+    "Workflow Git a branch, code review, consegna iterativa e testing manuale prima del rilascio.",
 
   "project.pocket-metropolis.title": "Pocket Metropolis",
   "project.pocket-metropolis.tagline": "Simulatore di città per mobile (Godot)",
   "project.pocket-metropolis.body":
-    "Progettazione di una simulazione cittadina minimalista per dispositivi mobile con crescita della popolazione, domanda abitativa, valore dei terreni e logica infrastrutturale.",
-  "project.pocket-metropolis.point1":
-    "Sistemi modulari per strade, abitazioni, istruzione e servizi",
-  "project.pocket-metropolis.point2":
-    "Meccaniche basate sulla probabilità per afflusso e sviluppo",
-  "project.pocket-metropolis.point3":
-    "Prestazioni, scalabilità ed espansione futura",
+    "Simulazione cittadina minimalista per dispositivi mobile che modella crescita della popolazione, domanda abitativa, valore dei terreni e infrastrutture su sistemi componibili.",
+  "project.pocket-metropolis.problem":
+    "Progettare un city sim leggero che produca cicli di crescita significativi su hardware mobile, senza grafica o contenuti pesanti.",
+  "project.pocket-metropolis.role":
+    "Sviluppatore singolo — game design, meccaniche e implementazione in Godot.",
+  "project.pocket-metropolis.architecture":
+    "Scene modulari Godot per ogni sistema (strade, abitazioni, istruzione, servizi) coordinate da un loop di aggiornamento probabilistico. Parametri data-oriented separati dal comportamento per iterare velocemente.",
+  "project.pocket-metropolis.challenges":
+    "Mantenere la simulazione reattiva su mobile e allo stesso tempo tenere i sistemi componibili, in modo da poter aggiungere nuove meccaniche senza riscritture.",
+  "project.pocket-metropolis.practices":
+    "Composizione OOP a scene, iterazione stretta sui parametri di gioco e profiling per intercettare gli hot spot.",
 
   "project.risiko-web.title": "Risiko",
   "project.risiko-web.tagline": "Gioco strategico multiplayer web (Godot + WebRTC)",
   "project.risiko-web.body":
-    "Porting di un classico gioco da tavolo strategico in versione multiplayer giocabile dal browser, con comunicazione peer-to-peer e stato di gioco sincronizzato.",
-  "project.risiko-web.point1": "Comunicazione peer-to-peer con WebRTC",
-  "project.risiko-web.point2":
-    "Sincronizzazione dello stato e gestione dei turni",
-  "project.risiko-web.point3":
-    "Affidabilità, riduzione della latenza ed esperienza utente",
+    "Porting web di un classico gioco strategico da tavolo con multiplayer in tempo reale, networking peer-to-peer e stato di gioco sincronizzato.",
+  "project.risiko-web.problem":
+    "Portare un gioco strategico a turni nel browser con multiplayer in tempo reale, senza dover gestire un server autoritativo dedicato.",
+  "project.risiko-web.role":
+    "Sviluppatore singolo — networking, modello dello stato e regole di gioco.",
+  "project.risiko-web.architecture":
+    "Godot con export Web. Canali dati WebRTC per lobby, gestione dei turni e sincronizzazione. Modello host-authoritative con broadcast deterministico delle azioni per ricostruire lo stesso stato su ogni peer.",
+  "project.risiko-web.challenges":
+    "Riconciliare lo stato dei turni tra peer, gestire disconnessioni e rientri, ridurre la latenza percepita sulle azioni condivise.",
+  "project.risiko-web.practices":
+    "Moduli piccoli e testabili, log espliciti delle azioni e transizioni di stato riproducibili per il debug dei desync.",
 
   "project.status.in-progress": "In corso",
   "project.status.shipped": "Concluso",
@@ -244,15 +282,10 @@ const IT = {
   "timeline.unicam.org": "Università di Camerino",
   "timeline.unicam.meta":
     "Corsi in tecnologie dell'informazione e della comunicazione",
-  "timeline.freud.role": "Diploma in Informatics",
+  "timeline.freud.role": "Diploma in Informatica",
   "timeline.freud.org": "Scuola Paritaria S. Freud",
-  "timeline.freud.meta": "Istituto tecnico industriale · Diploma",
-  "timeline.feltrinelli.role": "Informatics",
-  "timeline.feltrinelli.org": "ITIS Feltrinelli",
-  "timeline.feltrinelli.meta": "Istituto tecnico industriale",
-  "timeline.montani.role": "Informatics",
-  "timeline.montani.org": "Istituto Tecnico G. e. M. Montani",
-  "timeline.montani.meta": "Istituto tecnico di tecnologia",
+  "timeline.freud.meta":
+    "Istituto tecnico industriale · Diploma di scuola superiore in Informatica",
   "timeline.eximia.role": "Tirocinante — C# / dati RFID",
   "timeline.eximia.org": "Eximia",
   "timeline.eximia.meta":

@@ -3,6 +3,58 @@ import { applyTranslations, t, toggleLang } from "./i18n";
 import { PROJECTS, SKILL_GROUPS, TIMELINE } from "./data";
 
 /* ----------------------------------------------------------------------
+   Visits backend (self-hosted, DuckDNS + Caddy + Node — see /server).
+
+   Set to `""` to disable the beacon entirely.
+   Only fires from the production origin (never from localhost).
+---------------------------------------------------------------------- */
+
+const BEACON_ORIGIN = "https://krin3x.duckdns.org";
+const VISIT_SESSION_KEY = "cn.visited";
+const VISIT_LOG_LOADED = "cn.visitLogLoaded";
+
+function beaconEnabled() {
+  if (!BEACON_ORIGIN) return false;
+  const host = location.hostname;
+  return host !== "localhost" && host !== "127.0.0.1" && host !== "";
+}
+
+/** Fire-and-forget visit ping. Uses sendBeacon so it survives page unload. */
+function trackVisit() {
+  if (!beaconEnabled()) return;
+  try {
+    if (sessionStorage.getItem(VISIT_SESSION_KEY)) return;
+    sessionStorage.setItem(VISIT_SESSION_KEY, "1");
+  } catch {
+    // sessionStorage blocked — fire anyway.
+  }
+
+  const payload = JSON.stringify({
+    ref: document.referrer || "",
+    lang: navigator.language || "",
+  });
+
+  try {
+    const blob = new Blob([payload], { type: "text/plain" });
+    const ok = navigator.sendBeacon?.(`${BEACON_ORIGIN}/hit`, blob);
+    if (ok) return;
+  } catch {
+    /* fall through to fetch */
+  }
+
+  fetch(`${BEACON_ORIGIN}/hit`, {
+    method: "POST",
+    mode: "cors",
+    credentials: "omit",
+    keepalive: true,
+    headers: { "Content-Type": "text/plain" },
+    body: payload,
+  }).catch(() => {
+    /* endpoint down — never fail the page load */
+  });
+}
+
+/* ----------------------------------------------------------------------
    DOM helpers
 ---------------------------------------------------------------------- */
 
@@ -62,16 +114,16 @@ function prefersReducedMotion() {
 let typewriterCancel = null;
 
 function typewriterCharDelay(char, prevChar, index) {
-  if (index === 0) return 320 + Math.random() * 180;
+  if (index === 0) return 140 + Math.random() * 90;
   if (prevChar === "." || prevChar === "," || prevChar === "—") {
-    return 220 + Math.random() * 280;
+    return 90 + Math.random() * 120;
   }
-  if (prevChar === " ") return 55 + Math.random() * 95;
-  if (char === " ") return 40 + Math.random() * 70;
-  if (index > 8 && index % 11 === 0 && Math.random() < 0.4) {
-    return 180 + Math.random() * 320;
+  if (prevChar === " ") return 22 + Math.random() * 40;
+  if (char === " ") return 16 + Math.random() * 30;
+  if (index > 8 && index % 11 === 0 && Math.random() < 0.3) {
+    return 70 + Math.random() * 140;
   }
-  return 48 + Math.random() * 82;
+  return 18 + Math.random() * 34;
 }
 
 function runTypewriter(target, text, onDone) {
@@ -141,6 +193,64 @@ function getOutputLogLines() {
     { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-fn">github-pages</span> · workflow triggered on push to <span class="tk-str">main</span>` },
     { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-str">✓</span> live at <span class="tk-fn">https://krin3x.github.io/My_Portfolio/</span>` },
   ];
+}
+
+/* ----------------------------------------------------------------------
+   Live visit log — shown in the Terminal pane when /recent is reachable.
+   Falls back to the static `git log` markup baked into index.html.
+---------------------------------------------------------------------- */
+
+function formatVisitTs(ts) {
+  // "YYYY-MM-DD HH:MM" in UTC, matches the server-side format.
+  return new Date(ts).toISOString().replace("T", " ").slice(0, 16);
+}
+
+function visitLine(v) {
+  const when   = formatVisitTs(v.ts);
+  const place  = [v.city, v.country].filter(Boolean).join(", ") || "unknown";
+  const client = [v.browser, v.os].filter(Boolean).join(" · ") || "unknown";
+  return `<span class="tk-cmt">[${escapeHTML(when)} UTC]</span> ` +
+         `<span class="tk-str">${escapeHTML(place)}</span> · ` +
+         `<span class="tk-fn">${escapeHTML(client)}</span>`;
+}
+
+async function loadVisitLog() {
+  if (!beaconEnabled()) return;
+  const host = document.getElementById("terminal-content");
+  if (!host) return;
+  if (sessionStorage.getItem(VISIT_LOG_LOADED)) return;
+
+  try {
+    const res = await fetch(`${BEACON_ORIGIN}/recent?limit=20`, {
+      mode: "cors",
+      credentials: "omit",
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) return;
+
+    const health = await fetch(`${BEACON_ORIGIN}/health`, { mode: "cors" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+    const total = health?.count ?? rows.length;
+
+    const header = [
+      `<p class="bp-line"><span class="tk-prop">$</span> <span class="tk-fn">tail</span> -n 20 visits.log</p>`,
+      `<p class="bp-line"><span class="tk-cmt">// self-hosted · DuckDNS + Caddy + Node · no IPs stored</span></p>`,
+      `<p class="bp-line"><span class="tk-cmt">// total anonymous visits: </span><span class="tk-num">${total}</span></p>`,
+      `<p class="bp-line">&nbsp;</p>`,
+    ];
+    const lines = rows.map((v) => `<p class="bp-line">${visitLine(v)}</p>`);
+    const footer = [
+      `<p class="bp-line">&nbsp;</p>`,
+      `<p class="bp-line"><span class="tk-prop">$</span> <span class="cursor-blink tk-cmt">_</span></p>`,
+    ];
+
+    host.innerHTML = [...header, ...lines, ...footer].join("");
+    sessionStorage.setItem(VISIT_LOG_LOADED, "1");
+  } catch {
+    // Endpoint unreachable — silently keep the static git-log content.
+  }
 }
 
 function renderOutputLogInstant(host) {
@@ -263,18 +373,41 @@ function camel(id) {
     .join("");
 }
 
+const PROJECT_META_KEYS = [
+  "problem",
+  "role",
+  "architecture",
+  "challenges",
+  "practices",
+];
+
 function renderProject(p) {
   const taglineKey = `project.${p.id}.tagline`;
   const bodyKey = `project.${p.id}.body`;
   const titleKey = `project.${p.id}.title`;
   const statusKey = `project.status.${p.status}`;
 
-  const points = [];
-  for (let i = 1; i <= 3; i += 1) {
-    const k = `project.${p.id}.point${i}`;
-    const text = t(k);
-    if (text === k) continue;
-    points.push(el("li", { "data-i18n": k }, [text]));
+  const metaRows = [];
+  for (const metaId of PROJECT_META_KEYS) {
+    const valueKey = `project.${p.id}.${metaId}`;
+    const labelKey = `project.meta.${metaId}`;
+    const value = t(valueKey);
+    if (value === valueKey) continue;
+    const label = t(labelKey);
+    metaRows.push(
+      el("div", { class: "project__meta-row" }, [
+        el(
+          "span",
+          { class: "project__meta-label", "data-i18n": labelKey },
+          [label],
+        ),
+        el(
+          "span",
+          { class: "project__meta-value", "data-i18n": valueKey },
+          [value],
+        ),
+      ]),
+    );
   }
 
   const head = el("header", { class: "project__head" }, [
@@ -303,8 +436,8 @@ function renderProject(p) {
     ),
     el("p", { "data-i18n": bodyKey }, [t(bodyKey)]),
   ];
-  if (points.length > 0) {
-    proseChildren.push(el("ul", {}, points));
+  if (metaRows.length > 0) {
+    proseChildren.push(el("div", { class: "project__meta" }, metaRows));
   }
   const prose = el("div", { class: "project__prose" }, proseChildren);
 
@@ -468,6 +601,9 @@ function setupBottomPanel() {
       });
       if (target === "output") {
         playOutputLog(document.getElementById("output-log"));
+      }
+      if (target === "terminal") {
+        loadVisitLog();
       }
     });
   });
@@ -658,6 +794,7 @@ function init() {
   setupStatusBuilding();
   setupCopyToClipboard();
   setupProjectChipPulse();
+  trackVisit();
 
   document.addEventListener("langchange", () => {
     rerenderDynamic();
