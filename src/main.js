@@ -11,7 +11,6 @@ import { PROJECTS, SKILL_GROUPS, TIMELINE } from "./data";
 
 const BEACON_ORIGIN = "https://krin3x.duckdns.org";
 const VISIT_SESSION_KEY = "cn.visited";
-const VISIT_LOG_LOADED = "cn.visitLogLoaded";
 
 function beaconEnabled() {
   if (!BEACON_ORIGIN) return false;
@@ -193,64 +192,6 @@ function getOutputLogLines() {
     { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-fn">github-pages</span> · workflow triggered on push to <span class="tk-str">main</span>` },
     { html: `<span class="tk-cmt">[deploy]</span> <span class="tk-str">✓</span> live at <span class="tk-fn">https://krin3x.github.io/My_Portfolio/</span>` },
   ];
-}
-
-/* ----------------------------------------------------------------------
-   Live visit log — shown in the Terminal pane when /recent is reachable.
-   Falls back to the static `git log` markup baked into index.html.
----------------------------------------------------------------------- */
-
-function formatVisitTs(ts) {
-  // "YYYY-MM-DD HH:MM" in UTC, matches the server-side format.
-  return new Date(ts).toISOString().replace("T", " ").slice(0, 16);
-}
-
-function visitLine(v) {
-  const when   = formatVisitTs(v.ts);
-  const place  = [v.city, v.country].filter(Boolean).join(", ") || "unknown";
-  const client = [v.browser, v.os].filter(Boolean).join(" · ") || "unknown";
-  return `<span class="tk-cmt">[${escapeHTML(when)} UTC]</span> ` +
-         `<span class="tk-str">${escapeHTML(place)}</span> · ` +
-         `<span class="tk-fn">${escapeHTML(client)}</span>`;
-}
-
-async function loadVisitLog() {
-  if (!beaconEnabled()) return;
-  const host = document.getElementById("terminal-content");
-  if (!host) return;
-  if (sessionStorage.getItem(VISIT_LOG_LOADED)) return;
-
-  try {
-    const res = await fetch(`${BEACON_ORIGIN}/recent?limit=20`, {
-      mode: "cors",
-      credentials: "omit",
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const rows = await res.json();
-    if (!Array.isArray(rows) || rows.length === 0) return;
-
-    const health = await fetch(`${BEACON_ORIGIN}/health`, { mode: "cors" })
-      .then((r) => (r.ok ? r.json() : null))
-      .catch(() => null);
-    const total = health?.count ?? rows.length;
-
-    const header = [
-      `<p class="bp-line"><span class="tk-prop">$</span> <span class="tk-fn">tail</span> -n 20 visits.log</p>`,
-      `<p class="bp-line"><span class="tk-cmt">// self-hosted · DuckDNS + Caddy + Node · no IPs stored</span></p>`,
-      `<p class="bp-line"><span class="tk-cmt">// total anonymous visits: </span><span class="tk-num">${total}</span></p>`,
-      `<p class="bp-line">&nbsp;</p>`,
-    ];
-    const lines = rows.map((v) => `<p class="bp-line">${visitLine(v)}</p>`);
-    const footer = [
-      `<p class="bp-line">&nbsp;</p>`,
-      `<p class="bp-line"><span class="tk-prop">$</span> <span class="cursor-blink tk-cmt">_</span></p>`,
-    ];
-
-    host.innerHTML = [...header, ...lines, ...footer].join("");
-    sessionStorage.setItem(VISIT_LOG_LOADED, "1");
-  } catch {
-    // Endpoint unreachable — silently keep the static git-log content.
-  }
 }
 
 function renderOutputLogInstant(host) {
@@ -601,9 +542,6 @@ function setupBottomPanel() {
       });
       if (target === "output") {
         playOutputLog(document.getElementById("output-log"));
-      }
-      if (target === "terminal") {
-        loadVisitLog();
       }
     });
   });
