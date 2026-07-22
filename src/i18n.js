@@ -9,7 +9,7 @@
 const EN = {
   "meta.title": "Christian Van Natali — Full Stack Software Developer",
   "meta.description":
-    "Christian Van Natali — Full Stack Software Developer in Milan. PHP, Laravel, Godot, and scalable web & game systems.",
+    "Christian Van Natali — Full Stack Software Developer in Milan. Laravel, Java, JavaScript. EIPASS EPIQ / Accredia-accredited. Full-stack web & game systems.",
 
   "nav.skip": "Skip to content",
   "nav.about": "About",
@@ -44,12 +44,23 @@ const EN = {
   "about.facts.languages": "Languages",
   "about.facts.availability": "Status",
   "about.facts.openToWork": "Open to opportunities",
-  "about.certificate.title": "Certificate",
+  "about.certificate.title": "Certifications",
   "about.certificate.caption": "Aulab Hackademy+ — Full-Stack Web Developer",
   "about.certificate.imageAlt":
     "Aulab Hackademy+ Full-Stack Web Developer certificate awarded to Christian Van Natali",
   "about.certificate.linkTitle": "Open verified Aulab certificate (new tab)",
   "about.certificate.view": "View verified credential",
+
+  "about.certificate.epiq.caption":
+    "EIPASS EPIQ — Web Application Developer",
+  "about.certificate.epiq.body":
+    "Accredia-accredited professional certification. Competencies validated through theoretical, practical, and oral assessment.",
+  "about.certificate.epiq.issuer": "Issuer",
+  "about.certificate.epiq.issuerValue": "EIPASS / Certipass",
+  "about.certificate.epiq.standards": "Standards",
+  "about.certificate.epiq.credentialId": "Credential ID",
+  "about.certificate.epiq.linkTitle":
+    "Verify EIPASS EPIQ credential on didasko.eipass.com (new tab)",
 
   "skills.title": "Skills",
   "skills.group.languages": "Languages",
@@ -162,7 +173,7 @@ const EN = {
 const IT = {
   "meta.title": "Christian Van Natali — Full Stack Software Developer",
   "meta.description":
-    "Christian Van Natali — Full Stack Software Developer a Milano. PHP, Laravel, Godot e sistemi web e di gioco scalabili.",
+    "Christian Van Natali — Full Stack Software Developer a Milano. Laravel, Java, JavaScript. Certificato EIPASS EPIQ (accreditato Accredia). Sistemi web e di gioco full-stack.",
 
   "nav.skip": "Vai al contenuto",
   "nav.about": "Chi sono",
@@ -198,12 +209,23 @@ const IT = {
   "about.facts.languages": "Lingue",
   "about.facts.availability": "Stato",
   "about.facts.openToWork": "Aperto a nuove opportunità",
-  "about.certificate.title": "Certificato",
+  "about.certificate.title": "Certificazioni",
   "about.certificate.caption": "Aulab Hackademy+ — Full-Stack Web Developer",
   "about.certificate.imageAlt":
     "Certificato Aulab Hackademy+ Full-Stack Web Developer rilasciato a Christian Van Natali",
   "about.certificate.linkTitle": "Apri certificato Aulab verificato (nuova scheda)",
   "about.certificate.view": "Vedi credenziale verificata",
+
+  "about.certificate.epiq.caption":
+    "EIPASS EPIQ — Web Application Developer",
+  "about.certificate.epiq.body":
+    "Certificazione professionale accreditata Accredia. Competenze validate attraverso prove teoriche, pratiche e orali.",
+  "about.certificate.epiq.issuer": "Ente",
+  "about.certificate.epiq.issuerValue": "EIPASS / Certipass",
+  "about.certificate.epiq.standards": "Standard",
+  "about.certificate.epiq.credentialId": "ID credenziale",
+  "about.certificate.epiq.linkTitle":
+    "Verifica credenziale EIPASS EPIQ su didasko.eipass.com (nuova scheda)",
 
   "skills.title": "Competenze",
   "skills.group.languages": "Linguaggi",

@@ -466,15 +466,14 @@ p { margin: 0; }
   color: var(--ide-fg);
 }
 
-.credential__caption {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--ide-fg-3);
-  margin: 0 0 14px;
+/* Container for multiple credential cards */
+.credentials {
+  display: grid;
+  gap: 18px;
+  max-width: 720px;
 }
 
 .credential-card {
-  max-width: 720px;
   margin: 0;
   border: 1px solid var(--ide-border-2);
   border-radius: 4px;
@@ -486,6 +485,17 @@ p { margin: 0; }
 .credential-card:hover,
 .credential-card:focus-within {
   border-color: var(--ide-border);
+}
+
+/* Card title shown above the image or the text body */
+.credential-card__title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ide-fg);
+  margin: 0;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--ide-border-2);
+  background: var(--ide-bg);
 }
 
 .credential-card__link {
@@ -525,6 +535,103 @@ p { margin: 0; }
 .credential-card__arrow {
   font-size: 11px;
   opacity: 0.85;
+}
+
+/* Text-only variant (no cover image) — for credentials without a shareable image */
+.credential-card--text .credential-card__body {
+  padding: 14px 16px 4px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ide-fg-2);
+  display: grid;
+  gap: 12px;
+}
+
+.credential-card__lede {
+  margin: 0;
+  color: var(--ide-fg-2);
+}
+
+.credential-card__facts {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--ide-border-2);
+  border-radius: 3px;
+  background: var(--ide-bg);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  display: grid;
+  gap: 8px;
+}
+
+.credential-card__fact {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.credential-card__fact dt {
+  color: var(--tk-prop);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.credential-card__fact dt::before {
+  content: "@";
+  color: var(--tk-cmt);
+  margin-right: 2px;
+}
+
+.credential-card__fact dd {
+  margin: 0;
+  color: var(--ide-fg-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.credential-card__fact dd code {
+  font-family: var(--font-mono);
+  color: var(--tk-str);
+  background: var(--ide-elev);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.credential-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid var(--ide-border);
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--tk-num);
+  background: var(--ide-elev);
+  letter-spacing: 0.02em;
+}
+
+/* The verify link acts as the caption on the text-only card */
+.credential-card__caption--link {
+  text-decoration: none;
+  color: var(--ide-fg-3);
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.credential-card__caption--link:hover,
+.credential-card__caption--link:focus-visible {
+  color: var(--ide-accent);
+  text-decoration: none;
+  background: var(--ide-elev);
+}
+
+@media (min-width: 520px) {
+  .credential-card__fact {
+    grid-template-columns: 140px 1fr;
+    column-gap: 14px;
+    align-items: baseline;
+  }
 }
 
 /* ---------- Projects ---------- */
